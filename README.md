@@ -1,5 +1,3 @@
-ر<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=mahmoudsayed112222.mahmoudsayed112222">
-
 <h1 align="center">
   <a href="https://git.io/typing-svg">
     <img src="https://readme-typing-svg.herokuapp.com/?lines=Hello,+I'm+Mahmoud+Sayed!;Data+Analyst+💡;Turning+Data+into+Insights!;Welcome+to+my+GitHub+Profile!&center=true&size=28&color=1abc9c">
@@ -7,11 +5,11 @@
 </h1>
 
 <h5 align="center">
-  <code><a href="https://www.linkedin.com/in/mahmoud-sayed-80471a330" title="LinkedIn Profile"><img width="22" src="images/linkedin.svg"> LinkedIn</a></code>
-  <code><a href="mailto:mahmoudsayed112222@gmail.com" title="Email"><img width="22" src="images/gmail.svg"> Email</a></code>
+  <code><a href="https://www.linkedin.com/in/mahmoud-sayed-80471a330" title="LinkedIn Profile"><img width="22" src="https://cdn-icons-png.flaticon.com/512/174/174857.png"> LinkedIn</a></code>
+  <code><a href="mailto:mahmoudsayed112222@gmail.com" title="Email"><img width="22" src="https://cdn-icons-png.flaticon.com/512/732/732200.png"> Email</a></code>
 </h5>
 
-<br>
+---
 
 <p align="center">
   👋 Hi, I'm <b>Mahmoud Sayed</b>, a passionate <b>Data Analyst</b> who loves turning raw data into actionable insights.  
@@ -25,10 +23,10 @@
   📫 Reach me at: <a href="mailto:mahmoudsayed112222@gmail.com">mahmoudsayed112222@gmail.com</a>  
 </p>
 
-<hr>
+---
 
 <h2 align="center">🧠 Skills & Tools</h2>
-<br>
+
 <p align="center">
   <code><img title="Excel" height="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/excel/excel-original.svg"></code>
   <code><img title="Python" height="25" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"></code>
@@ -43,10 +41,10 @@
   <code><img title="OOP" height="25" src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png"></code>
 </p>
 
-<hr>
+---
 
 <h2 align="center">📈 GitHub Stats</h2>
-<br>
+
 <p align="center">
   <a href="https://github.com/anuraghazra/github-readme-stats">
     <img width="48%" src="https://github-readme-stats.vercel.app/api?username=mahmoudsayed112222&show_icons=true&theme=react&border_color=1abc9c&hide_border=true" />
@@ -60,16 +58,16 @@
   <img width="90%" src="https://github-readme-activity-graph.vercel.app/graph?username=mahmoudsayed112222&theme=react-dark&bg_color=20232a&hide_border=true&line=1abc9c&point=ffffff"/>
 </p>
 
-<hr>
+---
 
 <h2 align="center">🚀 Featured Projects</h2>
-<br>
-<p align="center">Coming soon... Stay tuned for data analysis projects, dashboards, and visualizations 📊</p>
 
-<hr>
+<p align="center">
+  Coming soon... Stay tuned for data analysis projects, dashboards, and visualizations 📊
+</p>
+
+---
 
 <h4 align="center">
   🔍 Explore my repositories and projects for more insights and analytics work!
 </h4>
-ر
-ر
