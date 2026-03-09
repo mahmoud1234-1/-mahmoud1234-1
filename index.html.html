@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Focus Up | Gamified Digital Wellbeing</title>
+  <style>
+    :root {
+      --bg: #020617;
+      --panel: rgba(255,255,255,0.06);
+      --panel-strong: rgba(255,255,255,0.1);
+      --text: #ffffff;
+      --muted: #94a3b8;
+      --accent: #67e8f9;
+      --accent-2: #a78bfa;
+      --white: #ffffff;
+      --dark: #0f172a;
+      --light-bg: #f8fafc;
+      --light-border: #e2e8f0;
+      --shadow: 0 20px 50px rgba(0,0,0,0.25);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(2, 6, 23, 0.86);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      color: #020617;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-title { font-size: 28px; font-weight: 900; line-height: 1; }
+    .brand-subtitle { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    .nav {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    .nav a:hover { color: #fff; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(34,211,238,0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(168,85,247,0.18), transparent 34%),
+        var(--bg);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 40px;
+      align-items: center;
+      padding: 72px 0 88px;
+    }
+
+    .pill {
+      display: inline-block;
+      border: 1px solid rgba(103,232,249,0.25);
+      background: rgba(103,232,249,0.10);
+      color: #cffafe;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 68px);
+      line-height: 1.05;
+      font-weight: 900;
+      max-width: 760px;
+    }
+
+    .hero p.lead {
+      margin-top: 20px;
+      color: #cbd5e1;
+      font-size: 20px;
+      max-width: 700px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 18px;
+      font-weight: 700;
+      transition: transform .2s ease, opacity .2s ease, background .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: #fff; color: #020617; }
+    .btn-secondary { border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #fff; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-value { font-size: 28px; font-weight: 900; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    .phone-shell {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.06);
+      padding: 16px;
+      border-radius: 34px;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+      max-width: 500px;
+      margin-left: auto;
+    }
+
+    .phone-inner {
+      border-radius: 28px;
+      padding: 18px;
+      background: linear-gradient(180deg, #1e293b, #0f172a);
+    }
+
+    .dashboard {
+      border-radius: 24px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    }
+
+    .flex-between { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .badge { background: rgba(16,185,129,0.15); color: #86efac; padding: 8px 12px; border-radius: 999px; font-size: 13px; }
+    .muted { color: var(--muted); }
+    .title-xl { font-size: 22px; font-weight: 800; }
+
+    .mini-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .progress-bar {
+      margin-top: 10px;
+      background: #334155;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-value {
+      width: 74%;
+      height: 100%;
+      background: #fff;
+      border-radius: 999px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .big-number { font-size: 32px; font-weight: 900; margin-top: 8px; }
+    .bars {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 110px;
+      margin-top: 14px;
+    }
+
+    .bar {
+      flex: 1;
+      border-radius: 14px 14px 0 0;
+      background: linear-gradient(180deg, #7dd3fc, #06b6d4);
+    }
+
+    .section { padding: 84px 0; }
+    .eyebrow {
+      color: #67e8f9;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .section h2 { font-size: clamp(34px, 4vw, 50px); font-weight: 900; line-height: 1.1; }
+    .section p.section-text { font-size: 19px; color: #cbd5e1; margin-top: 18px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .step-card, .team-card, .audience-card, .impact-card, .plan-card, .contact-panel {
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .step-card { padding: 24px; }
+    .step-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: #fff;
+      color: #020617;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 34px;
+    }
+
+    .light-section {
+      background: var(--light-bg);
+      color: var(--dark);
+    }
+
+    .feature-card {
+      border-radius: var(--radius);
+      border: 1px solid var(--light-border);
+      background: white;
+      padding: 26px;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+    }
+
+    .feature-icon { font-size: 34px; }
+    .feature-card h3 { margin-top: 14px; font-size: 28px; font-weight: 800; }
+    .feature-card p { margin-top: 10px; color: #475569; }
+
+    .audience-wrap {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .audience-stack, .impact-stack, .plans-grid, .team-grid { display: grid; gap: 16px; }
+    .audience-card, .impact-card { padding: 20px; }
+    .impact-panel {
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(168,85,247,0.12));
+      padding: 28px;
+    }
+
+    .team-heading { display: flex; justify-content: space-between; gap: 20px; align-items: end; flex-wrap: wrap; }
+    .tag {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: #cbd5e1;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+
+    .team-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .team-card { padding: 22px; }
+    .team-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      background: #fff;
+      color: #020617;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .team-name { font-size: 20px; font-weight: 800; }
+    .team-id { color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+    .plans-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 34px;
+    }
+
+    .plan-card { padding: 28px; }
+    .plan-featured {
+      background: #fff;
+      color: #020617;
+      border-color: rgba(103,232,249,0.5);
+      box-shadow: var(--shadow);
+    }
+
+    .plan-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .plan-name { font-size: 30px; font-weight: 900; }
+    .plan-price { font-size: 34px; font-weight: 900; margin-top: 8px; }
+    .plan-badge { background: #cffafe; color: #164e63; border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; }
+    .plan-items { display: grid; gap: 10px; margin-top: 20px; }
+    .plan-item {
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      color: #cbd5e1;
+    }
+
+    .plan-featured .plan-item {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .plan-card .btn { margin-top: 22px; width: 100%; text-align: center; }
+    .plan-featured .btn { background: #020617; color: #fff; }
+    .plan-card:not(.plan-featured) .btn { background: #fff; color: #020617; }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      padding: 28px;
+    }
+
+    .form-grid { display: grid; gap: 14px; }
+    .field, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #0f172a;
+      color: #fff;
+      font: inherit;
+      outline: none;
+    }
+
+    textarea { min-height: 140px; resize: vertical; }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .two-col, .audience-wrap, .contact-box { grid-template-columns: 1fr; }
+      .cards-grid, .plans-grid, .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .phone-shell { margin: 0; }
+    }
+
+    @media (max-width: 640px) {
+      .nav { display: none; }
+      .cards-grid, .plans-grid, .team-grid, .stats, .mini-grid { grid-template-columns: 1fr; }
+      .hero-grid { padding: 56px 0 72px; }
+      .brand-title { font-size: 24px; }
+      .hero p.lead, .section p.section-text { font-size: 17px; }
+      .container { width: min(1180px, calc(100% - 20px)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo">FU</div>
+        <div>
+          <div class="brand-title">Focus Up</div>
+          <div class="brand-subtitle">Gamified Digital Wellbeing</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#audience">Audience</a>
+        <a href="#team">Team</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="pill">Better sleep. Better focus. Less stress.</div>
+        <h1>A student-first app that helps youth reduce unhealthy screen time.</h1>
+        <p class="lead">Focus Up turns discipline into a rewarding routine through focus sessions, supportive analytics, optional friction, and a dedicated Sleep Shield for late-night scrolling.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#pricing">Explore Plans</a>
+          <a class="btn btn-secondary" href="#features">View Features</a>
+        </div>
+        <div class="stats">
+          <div class="stat-card"><div class="stat-value">15–25</div><div class="stat-label">Primary user age</div></div>
+          <div class="stat-card"><div class="stat-value">19 AED</div><div class="stat-label">Premium monthly plan</div></div>
+          <div class="stat-card"><div class="stat-value">7 Days</div><div class="stat-label">Exam focus challenge</div></div>
+          <div class="stat-card"><div class="stat-value">2 Languages</div><div class="stat-label">Arabic + English UI plan</div></div>
+        </div>
+      </div>
+
+      <div class="phone-shell">
+        <div class="phone-inner">
+          <div class="dashboard">
+            <div class="flex-between">
+              <div>
+                <div class="muted">Tonight’s goal</div>
+                <div class="title-xl">Protect your bedtime</div>
+              </div>
+              <div class="badge">Sleep Shield ON</div>
+            </div>
+            <div class="mini-card">
+              <div class="flex-between muted"><span>Focus session</span><span>25 min</span></div>
+              <div class="progress-bar"><div class="progress-value"></div></div>
+            </div>
+            <div class="mini-grid">
+              <div class="mini-card"><div class="muted">Current streak</div><div class="big-number">12 days</div></div>
+              <div class="mini-card"><div class="muted">Points earned</div><div class="big-number">2,480</div></div>
+            </div>
+            <div class="mini-card">
+              <div class="flex-between"><span class="muted">Weekly progress</span><span style="color:#67e8f9;">+18%</span></div>
+              <div class="bars">
+                <div class="bar" style="height:40%"></div>
+                <div class="bar" style="height:65%"></div>
+                <div class="bar" style="height:55%"></div>
+                <div class="bar" style="height:75%"></div>
+                <div class="bar" style="height:70%"></div>
+                <div class="bar" style="height:88%"></div>
+                <div class="bar" style="height:92%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="container two-col">
+      <div>
+        <div class="eyebrow">About the project</div>
+        <h2>Why Focus Up exists</h2>
+        <p class="section-text">Many students do not need harsher restrictions. They need a smarter, more supportive system that helps them stay focused during study time and reduce late-night scrolling without feeling controlled.</p>
+        <p class="section-text">Focus Up was designed as a hybrid solution that combines motivation-first rewards, optional friction, progress visibility, and sleep protection in one youth-centered experience.</p>
+      </div>
+      <div style="display:grid; gap:16px;">
+        <div class="step-card"><div class="step-number">1</div><h3>Notice the pattern</h3><p class="section-text" style="font-size:17px; margin-top:10px;">Students recognize how late-night scrolling and constant checking affect sleep, stress, and grades.</p></div>
+        <div class="step-card"><div class="step-number">2</div><h3>Start small</h3><p class="section-text" style="font-size:17px; margin-top:10px;">Short sessions and beginner-friendly challenges reduce resistance and make progress feel possible.</p></div>
+        <div class="step-card"><div class="step-number">3</div><h3>Build habits</h3><p class="section-text" style="font-size:17px; margin-top:10px;">Rewards, streaks, and weekly reports turn focus into a routine that feels achievable and positive.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="section light-section">
+    <div class="container">
+      <div class="eyebrow" style="color:#0369a1;">Core features</div>
+      <h2>Everything students need to regain control</h2>
+      <div class="cards-grid">
+        <div class="feature-card"><div class="feature-icon">⏱️</div><h3>Focus Sessions</h3><p>Start short Pomodoro-style sessions with flexible timing that helps students study without feeling trapped.</p></div>
+        <div class="feature-card"><div class="feature-icon">🌙</div><h3>Sleep Shield</h3><p>Gentle bedtime support that reduces late-night scrolling through wind-down prompts and optional restrictions.</p></div>
+        <div class="feature-card"><div class="feature-icon">🏆</div><h3>Rewards & Streaks</h3><p>Earn points, badges, levels, and streaks that make discipline feel motivating instead of punishing.</p></div>
+        <div class="feature-card"><div class="feature-icon">📈</div><h3>Progress Analytics</h3><p>See weekly progress, focus time, and habit consistency in a simple privacy-first dashboard.</p></div>
+        <div class="feature-card"><div class="feature-icon">🎯</div><h3>Challenges</h3><p>Join optional friend challenges and exam-week packs designed for student life.</p></div>
+        <div class="feature-card"><div class="feature-icon">🔒</div><h3>Student-First Privacy</h3><p>Opt-in tracking, transparent permissions, and a supportive experience without shame-based pressure.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="audience" class="section">
+    <div class="container audience-wrap">
+      <div>
+        <div class="eyebrow">Target audience</div>
+        <h2>Built for youth, useful for institutions</h2>
+        <div class="audience-stack" style="margin-top:28px;">
+          <div class="audience-card">Students who lose focus during study sessions</div>
+          <div class="audience-card">Young people who scroll late at night and sleep poorly</div>
+          <div class="audience-card">Schools and universities that want better wellbeing support</div>
+        </div>
+      </div>
+      <div class="impact-panel">
+        <h3 style="font-size:30px; font-weight:900;">Expected impact</h3>
+        <div class="impact-stack" style="margin-top:18px;">
+          <div class="impact-card"><div class="muted">Night-time use reduction</div><div style="font-size:28px; font-weight:800; margin-top:6px;">Better sleep hygiene</div></div>
+          <div class="impact-card"><div class="muted">Completed focus sessions</div><div style="font-size:28px; font-weight:800; margin-top:6px;">Improved productivity</div></div>
+          <div class="impact-card"><div class="muted">Habit consistency</div><div style="font-size:28px; font-weight:800; margin-top:6px;">Long-term behavior change</div></div>
+          <div class="impact-card"><div class="muted">Weekly wellbeing check-ins</div><div style="font-size:28px; font-weight:800; margin-top:6px;">Lower stress levels</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="team" class="section" style="background: rgba(255,255,255,0.02);">
+    <div class="container">
+      <div class="eyebrow">Project team</div>
+      <div class="team-heading">
+        <h2>Meet the Focus Up team</h2>
+        <div class="tag">Healthy Youth Lifestyles Project</div>
+      </div>
+      <div class="team-grid">
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Ahmed Abdalla Gharib</div><div class="team-id">U24109058</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Rashid Althani</div><div class="team-id">U23107226</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Saif Alketbi</div><div class="team-id">U24108252</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Sultan Mohammed Alshamsi</div><div class="team-id">U24107420</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Hazzaa Khalid Lootah</div><div class="team-id">U24105209</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Abdulla Saeed Mohamed</div><div class="team-id">U24200175</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Sultan Matar Alsuwaidi</div><div class="team-id">U24101115</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Yahya Abdulrauf</div><div class="team-id">U24106372</div></div>
+        <div class="team-card"><div class="team-logo">FU</div><div class="team-name">Saif Darwish Albishri</div><div class="team-id">U24107801</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="section">
+    <div class="container">
+      <div class="eyebrow">Pricing</div>
+      <h2>Flexible plans for users and campuses</h2>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-top"><div><div class="plan-name">Free</div><div class="plan-price">0 AED</div></div></div>
+          <div class="plan-items">
+            <div class="plan-item">Basic focus timer</div>
+            <div class="plan-item">Simple progress dashboard</div>
+            <div class="plan-item">Starter challenges</div>
+            <div class="plan-item">Basic rewards</div>
+          </div>
+          <a class="btn" href="#contact">Start Free</a>
+        </div>
+        <div class="plan-card plan-featured">
+          <div class="plan-top"><div><div class="plan-name">Premium</div><div class="plan-price">19 AED / month</div></div><div class="plan-badge">Popular</div></div>
+          <div class="plan-items">
+            <div class="plan-item">Advanced analytics</div>
+            <div class="plan-item">Personalized plans</div>
+            <div class="plan-item">Deeper controls</div>
+            <div class="plan-item">Premium challenge packs</div>
+          </div>
+          <a class="btn" href="#contact">Go Premium</a>
+        </div>
+        <div class="plan-card">
+          <div class="plan-top"><div><div class="plan-name">Campus Pilot</div><div class="plan-price">7,500 AED / semester</div></div></div>
+          <div class="plan-items">
+            <div class="plan-item">Cohort dashboard</div>
+            <div class="plan-item">Institution challenges</div>
+            <div class="plan-item">Pilot onboarding</div>
+            <div class="plan-item">Wellbeing support program</div>
+          </div>
+          <a class="btn" href="#contact">Book a Pilot</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container contact-panel contact-box">
+      <div>
+        <div class="eyebrow">Contact us</div>
+        <h2>Join the Focus Up pilot</h2>
+        <p class="section-text">Whether you are a student, university club, or campus support office, Focus Up is ready for pilot testing, feedback, and early adoption.</p>
+      </div>
+      <div class="form-grid">
+        <input class="field" type="text" placeholder="Your name" />
+        <input class="field" type="email" placeholder="Email address" />
+        <input class="field" type="text" placeholder="University / School" />
+        <textarea placeholder="Tell us how you want to use Focus Up"></textarea>
+        <a class="btn btn-primary" href="#">Send Request</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Focus Up prototype website — created for the Healthy Youth Lifestyles project by the Focus Up team.
+  </footer>
+</body>
+</html>
